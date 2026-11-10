@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}My Profile | {{ user.name }}{% endblock %}
+
+{% block content %}
+<h1 style="color: var(--primary); text-align: center; margin-bottom: 2rem;">My Profile</h1>
+
+<div class="profile-card">
+    <div class="profile-sidebar">
+        {% if user.photo %}
+            <img src="{{ url_for('static', filename='uploads/' + user.photo) }}" style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; border: 3px solid var(--primary);">
+        {% else %}
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; border: 3px solid var(--primary);">
+        {% endif %}
+        <h3>{{ user.name }}</h3>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">Hardahi Village</p>
+    </div>
+    
+    <div class="profile-main">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3>User Details</h3>
+            <a href="{{ url_for('id_card') }}" class="btn btn-orange" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Download ID Card</a>
+        </div>
+        <p style="margin-bottom: 0.5rem;"><b>ID Number :</b> <span style="color:var(--primary); font-weight:bold;">{{ user.member_id }}</span></p>
+        <p style="margin-bottom: 0.5rem;"><b>Name :</b> {{ user.name }}</p>
+        <p style="margin-bottom: 0.5rem;"><b>Village :</b> {{ user.village }}</p>
+        <p style="margin-bottom: 0.5rem;"><b>District :</b> Bahraich</p>
+        <p style="margin-bottom: 0.5rem;"><b>PIN Code :</b> 271821</p>
+        <p style="margin-bottom: 0.5rem;"><b>Mobile :</b> {{ user.phone }}</p>
+    </div>
+</div>
+{% endblock %}

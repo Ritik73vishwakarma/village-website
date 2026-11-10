@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Login | Hardahi{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-side-img">
+        <h2>Mera Gaon<br>Mera Hardahi</h2>
+    </div>
+    <form action="{{ url_for('login') }}" method="POST">
+        <h2 style="color: var(--primary); text-align: center; margin-bottom: 1.5rem;">Login to Your Account</h2>
+        <div class="form-group">
+            <label>Mobile Number or Email</label>
+            <input type="tel" name="phone" required placeholder="Enter mobile number">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" required placeholder="******">
+        </div>
+        <button type="submit" class="btn btn-orange" style="width:100%;">Login</button>
+        <p style="margin-top: 1rem; text-align: center; font-size: 0.88rem;">
+            Don't have an account? <a href="{{ url_for('signup') }}" style="color:var(--primary); font-weight:bold;">Sign Up</a>
+        </p>
+    </form>
+</div>
+{% endblock %}

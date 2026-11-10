@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Sign Up | Hardahi{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-side-img">
+        <h2>Join Our Village<br>Community</h2>
+    </div>
+    <form action="{{ url_for('signup') }}" method="POST" enctype="multipart/form-data">
+        <h2 style="color: var(--primary); text-align: center; margin-bottom: 1.2rem;">Create Your Account</h2>
+        <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" name="name" required placeholder="Ritik">
+        </div>
+        <div class="form-group">
+            <label>Mobile Number *</label>
+            <input type="tel" name="phone" pattern="[0-9]{10}" required placeholder="10 digit mobile number">
+        </div>
+        <div class="form-group">
+            <label>Select Your Gaon</label>
+            <select name="village">
+                <option value="Hardahi">Hardahi</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Password *</label>
+            <input type="password" name="password" minlength="4" required placeholder="******">
+        </div>
+        <div class="form-group">
+            <label>Your Photo (For ID Card)</label>
+            <input type="file" name="photo" accept="image/*">
+        </div>
+        <button type="submit" class="btn btn-orange" style="width:100%;">Sign Up</button>
+    </form>
+</div>
+{% endblock %}

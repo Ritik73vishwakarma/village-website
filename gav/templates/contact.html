@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Complaint & Help | Hardahi{% endblock %}
+
+{% block content %}
+<h1 style="color: var(--primary); text-align: center; margin-bottom: 0.3rem;">⚠️ Complaint & Problem Portal</h1>
+<p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">Apni Samasya Ya Shikayat Video Ke Sath Darj Karein</p>
+
+<form id="complaint-form" action="{{ url_for('contact') }}" method="POST" enctype="multipart/form-data" style="max-width: 600px;">
+    <h3 style="color: var(--primary); margin-bottom: 1rem;">Register Complaint</h3>
+    <div class="form-group">
+        <label>Your Name *</label>
+        <input type="text" name="name" required placeholder="Full Name">
+    </div>
+    <div class="form-group">
+        <label>Mobile Number *</label>
+        <input type="tel" name="phone" required pattern="[0-9]{10}" placeholder="10 Digit Number">
+    </div>
+    <div class="form-group">
+        <label>Describe Your Complaint *</label>
+        <textarea name="message" rows="4" required placeholder="Write details about the issue..."></textarea>
+    </div>
+    <div class="form-group">
+        <label>Upload Problem Video (Max Limit: 1 Minute)</label>
+        <input type="file" id="complaint-video-input" name="video" accept="video/*" onchange="validateVideoDuration(this)">
+        <small style="color: red; display: none;" id="video-error">⚠️ Video 1 minute se bada hai! Kripya 60 seconds se kam ka video chunein.</small>
+    </div>
+    <button type="submit" id="submit-complaint-btn" class="btn btn-orange" style="width: 100%;">Submit Complaint</button>
+</form>
+
+<h2 style="color: var(--primary); margin-top: 3rem; margin-bottom: 1rem;">Recent Complaints / Posted Issues</h2>
+<div class="complaint-feed">
+    {% for comp in complaints %}
+        <div class="complaint-card">
+            <div class="complaint-card-header">
+                <span><b>Complaint By:</b> {{ comp.name }} (Mobile: {{ comp.phone[:4] }}****)</span>
+                <span>📅 <b>Date & Time:</b> {{ comp.created_at.strftime('%d %b %Y, %I:%M %p') }}</span>
+            </div>
+            <p style="font-size: 1rem; color: #333; margin-top: 0.5rem;"><b>Issue:</b> {{ comp.message }}</p>
+            {% if comp.video_filename %}
+                <video controls class="complaint-video" src="{{ url_for('static', filename='uploads/' + comp.video_filename) }}"></video>
+            {% endif %}
+        </div>
+    {% else %}
+        <p style="color: #777;">Abhi tak koi shikayat darj nahi hui hai.</p>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function validateVideoDuration(input) {
+        const file = input.files[0];
+        const errorMsg = document.getElementById('video-error');
+        const submitBtn = document.getElementById('submit-complaint-btn');
+        
+        if (file) {
+            const video = document.createElement('video');
+            video.preload = 'metadata';
+            video.onloadedmetadata = function() {
+                window.URL.revokeObjectURL(video.src);
+                if (video.duration > 60) {
+                    errorMsg.style.display = 'block';
+                    submitBtn.disabled = true;
+                    submitBtn.style.opacity = '0.5';
+                    input.value = '';
+                } else {
+                    errorMsg.style.display = 'none';
+                    submitBtn.disabled = false;
+                    submitBtn.style.opacity = '1';
+                }
+            };
+            video.src = URL.createObjectURL(file);
+        }
+    }
+</script>
+{% endblock %}

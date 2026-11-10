@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Our Services | Hardahi{% endblock %}
+
+{% block content %}
+<h1 style="color: var(--primary); text-align: center; margin-bottom: 0.3rem;">Our Services</h1>
+<p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">Digital Services for Our Village</p>
+
+<div class="services-grid">
+    <a href="{{ url_for('id_card') }}" class="service-box">
+        <span class="icon">🆔</span>
+        <h4>ID Card</h4>
+        <p>Generate Your Village ID</p>
+    </a>
+    <a href="{{ url_for('home') }}#map" class="service-box">
+        <span class="icon">🗺️</span>
+        <h4>Village Map</h4>
+        <p>View Our Village Map</p>
+    </a>
+    <a href="{{ url_for('reels') }}" class="service-box">
+        <span class="icon">🎬</span>
+        <h4>Reels</h4>
+        <p>Pure Reel Stream</p>
+    </a>
+    <a href="{{ url_for('news') }}" class="service-box">
+        <span class="icon">📰</span>
+        <h4>News</h4>
+        <p>Post & View News</p>
+    </a>
+    <a href="#" class="service-box">
+        <span class="icon">📜</span>
+        <h4>Government Schemes</h4>
+        <p>Know Your Rights</p>
+    </a>
+    <a href="{{ url_for('contact') }}" class="service-box">
+        <span class="icon">⚠️</span>
+        <h4>Complaint</h4>
+        <p>Register Video Complaint</p>
+    </a>
+    <a href="#" class="service-box">
+        <span class="icon">🎉</span>
+        <h4>Event</h4>
+        <p>Village Events</p>
+    </a>
+    <a href="{{ url_for('profile') }}" class="service-box">
+        <span class="icon">👤</span>
+        <h4>Profile</h4>
+        <p>Update Your Profile</p>
+    </a>
+</div>
+{% endblock %}

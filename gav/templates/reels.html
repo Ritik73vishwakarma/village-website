@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Pure Reels | Hardahi{% endblock %}
+{% block container_class %}reels-page-container{% endblock %}
+
+{% block content %}
+<div class="reels-pure-wrapper">
+    
+    <!-- 3-Dots Left Corner Overlay -->
+    <button class="reel-dots-btn" title="Reel Information" onclick="openInfoModal()">⋮</button>
+
+    <!-- Floating + Icon to Upload Reel Directly -->
+    <form id="reel-direct-form" action="{{ url_for('upload_reel') }}" method="POST" enctype="multipart/form-data" style="display:none;">
+        <input type="file" id="reel-file-input" name="video" accept="video/*" onchange="document.getElementById('reel-direct-form').submit();">
+    </form>
+    <button type="button" class="reel-add-btn-floating" title="Add Reel" onclick="document.getElementById('reel-file-input').click();">+</button>
+
+    <!-- Pure Reel Snap View Container -->
+    <div class="reels-snap-container" id="pure-reels-viewport">
+        
+        <!-- Default Sample Reel 1 -->
+        <div class="pure-reel-item">
+            <video loop playsinline controls src="https://assets.mixkit.co/videos/preview/mixkit-beautiful-landscape-of-mountains-and-greenery-41505-large.mp4"></video>
+            <div class="reel-bottom-info">
+                <div class="reel-user-tag">
+                    <div class="reel-user-avatar">S</div>
+                    <span class="reel-user-name">Sarpanch Office (Hardahi)</span>
+                </div>
+                <div class="reel-title-text">🌿 Hardahi Village View · ID: HRDH-0001</div>
+            </div>
+        </div>
+
+        <!-- Default Sample Reel 2 -->
+        <div class="pure-reel-item">
+            <video loop playsinline controls src="https://assets.mixkit.co/videos/preview/mixkit-view-of-green-crops-in-a-field-40748-large.mp4"></video>
+            <div class="reel-bottom-info">
+                <div class="reel-user-tag">
+                    <div class="reel-user-avatar">R</div>
+                    <span class="reel-user-name">Ramesh Kumar</span>
+                </div>
+                <div class="reel-title-text">🌾 Green Wheat Fields · ID: HRDH-4892</div>
+            </div>
+        </div>
+
+        <!-- User Uploaded Reels with Account Name and ID -->
+        {% for reel in reels %}
+            <div class="pure-reel-item">
+                <video loop playsinline controls src="{{ url_for('static', filename='uploads/' + reel.video_filename) }}"></video>
+                <div class="reel-bottom-info">
+                    <div class="reel-user-tag">
+                        <div class="reel-user-avatar">{{ reel.uploader_name[0] | upper }}</div>
+                        <span class="reel-user-name">{{ reel.uploader_name }}</span>
+                    </div>
+                    <div class="reel-title-text">{{ reel.title }} · {{ reel.uploader_account }}</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- 3-Dots Info Modal -->
+<div class="info-modal" id="infoModal">
+    <div class="info-modal-content">
+        <button class="close-modal-btn" onclick="closeInfoModal()">×</button>
+        <h3 style="color: var(--primary); margin-bottom: 0.8rem;">🌿 Hardahi Reels Portal</h3>
+        <p><b>Video Guidelines:</b></p>
+        <ul style="margin-left: 1.2rem; font-size: 0.9rem; color: #555; margin-bottom: 1rem;">
+            <li>Vertical & Horizontal (PC/Mobile) Videos Supported.</li>
+            <li>Shows Uploader Name and Account ID.</li>
+            <li>Click (+) button at bottom right to add your Reel.</li>
+        </ul>
+        <button onclick="closeInfoModal()" class="btn btn-orange" style="width: 100%;">Got It</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function openInfoModal() { document.getElementById('infoModal').style.display = 'flex'; }
+    function closeInfoModal() { document.getElementById('infoModal').style.display = 'none'; }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const container = document.getElementById('pure-reels-viewport');
+        const videos = container.querySelectorAll('video');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const video = entry.target;
+                if (entry.isIntersecting) {
+                    videos.forEach(v => { if (v !== video) v.pause(); });
+                    video.play().catch(e => console.log('Autoplay prevented'));
+                } else {
+                    video.pause();
+                }
+            });
+        }, { root: container, threshold: 0.75 });
+
+        videos.forEach(video => {
+            observer.observe(video);
+            video.addEventListener('click', () => {
+                if (video.paused) video.play();
+                else video.pause();
+            });
+        });
+    });
+</script>
+{% endblock %}

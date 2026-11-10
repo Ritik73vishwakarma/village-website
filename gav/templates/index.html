@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Home | Mera Gaon Mera Hardahi{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Mera Gaon <span>Mera Hardahi</span></h1>
+    <p>Digital Gaon, Digital India<br>Hamare Gaon ki Jankari, Sabke Liye Ek Jagah</p>
+    <div class="hero-btns">
+        <a href="{{ url_for('about') }}" class="btn">Explore More ➔</a>
+        <a href="{{ url_for('reels') }}" class="btn btn-orange">Watch Video ▶</a>
+    </div>
+</section>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <h3>1200+</h3>
+        <p>Gaon ke Log</p>
+    </div>
+    <div class="stat-card">
+        <h3>1</h3>
+        <p>Hamari School</p>
+    </div>
+    <div class="stat-card">
+        <h3>1</h3>
+        <p>Hamara Mandir</p>
+    </div>
+    <div class="stat-card">
+        <h3>100%</h3>
+        <p>Digital Gaon</p>
+    </div>
+</div>
+
+<h2 style="margin-bottom: 1rem; color: var(--primary);">Gaon Ka Digital Naksha (Hardahi Map)</h2>
+<div id="map"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var map = L.map('map', {
+            center: [27.5750, 81.6000],
+            zoom: 15,
+            maxZoom: 18,
+            minZoom: 14
+        });
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap - Hardahi Village'
+        }).addTo(map);
+
+        L.marker([27.5750, 81.6000]).addTo(map).bindPopup('<b>Panchayat Bhavan Hardahi</b>').openPopup();
+        L.marker([27.5775, 81.6030]).addTo(map).bindPopup('<b>Prathmik Vidyalaya Hardahi</b>');
+        L.marker([27.5725, 81.5970]).addTo(map).bindPopup('<b>Swasthya Kendra Hardahi</b>');
+    });
+</script>
+{% endblock %}

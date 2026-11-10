@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Village ID Card | {{ user.name }}{% endblock %}
+
+{% block content %}
+<h1 style="color: var(--primary); text-align: center; margin-bottom: 1rem;" class="no-print">Village ID Card</h1>
+
+<div class="id-card-wrapper">
+    <div class="id-card">
+        <div class="id-header">
+            <h3>Mera Gaon Mera Hardahi</h3>
+            <small>VILLAGE RESIDENT ID CARD</small>
+        </div>
+        <div class="id-body">
+            {% if user.photo %}
+                <img class="id-photo" src="{{ url_for('static', filename='uploads/' + user.photo) }}" alt="Photo">
+            {% else %}
+                <img class="id-photo" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Photo">
+            {% endif %}
+            <div class="id-details">
+                <p><b>ID No :</b> <span style="color:var(--primary); font-weight:bold;">{{ user.member_id }}</span></p>
+                <p><b>Name :</b> {{ user.name }}</p>
+                <p><b>Village :</b> {{ user.village }}</p>
+                <p><b>District :</b> Bahraich</p>
+                <p><b>PIN Code :</b> 271821</p>
+            </div>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=Hardahi-ID-{{ user.member_id }}" class="id-qrcode" alt="QR Code">
+        </div>
+        <div class="id-footer">
+            --- Digital Gaon – Digital India ---
+        </div>
+    </div>
+
+    <div class="no-print" style="margin-top: 1rem;">
+        <button onclick="window.print()" class="btn btn-orange">🖨️ Print / Download ID Card</button>
+    </div>
+</div>
+{% endblock %}
